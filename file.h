@@ -9,7 +9,7 @@ public:
   File() = default;
 
   explicit File(int day, const char* type) {
-    in_ = std::ifstream { std::format("../day{}.{}", day, type) };
+    in_ = std::ifstream { std::format("../{}/day{}.txt", type, day) };
     if (!in_) {
       std::cerr << std::format("Can't open {} file.\n", type);
       throw 1;
