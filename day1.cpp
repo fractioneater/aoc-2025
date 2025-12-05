@@ -32,33 +32,33 @@ int main() {
       return 1;
     }
 
-#   if PART == 1
+    #if PART == 1
     if (dial % 100 == 0) {
       ++password;
       dial = 0;
     }
 
-#   elif PART == 2
+    #elif PART == 2
     if (dial <= 0 && old_dial != 0) {
-#     if VERBOSE
+      #if VERBOSE
       std::cout << "Hit or passed REAL zero\n";
-#     endif
+      #endif
 
       ++password;
     }
 
-#   if VERBOSE
+    #if VERBOSE
     std::cout << "Passed zero " << std::abs(dial / 100) << " times\n";
-#   endif
+    #endif
 
     password += std::abs(dial / 100);
     dial     %= 100;
     if (dial < 0) dial += 100;
-#   endif
+    #endif
 
-#   if VERBOSE
+    #if VERBOSE
     std::cout << direction << " turn of " << turn << " [" << old_dial << " -> " << dial << "]\n\n";
-#   endif
+    #endif
   }
 
   std::cout << "PART: " << PART << "\nThe password is " << password << '\n';

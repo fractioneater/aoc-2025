@@ -17,9 +17,9 @@ bool multi_repeat(const std::string& str) {
 
   for (const int f : factors) {
     const int chunk_size { static_cast<int>(len / f) };
-#   if VERBOSE
+    #if VERBOSE
     std::cout << "Testing " << chunk_size << "x" << f << " on " << str << '\n';
-#   endif
+    #endif
 
     /* Summary of all this:
      * 1. Go through the chunks (skipping the first one), if any are DIFFERENT from the first, break
@@ -31,9 +31,9 @@ bool multi_repeat(const std::string& str) {
     for (; chunk < f; ++chunk) {
       const int start { chunk * chunk_size };
       if (str.compare(0, chunk_size, str, start, chunk_size) != 0) {
-#       if VERBOSE
+        #if VERBOSE
         std::cout << str.substr(start, chunk_size) << " doesn't match " << str.substr(0, chunk_size) << '\n';
-#       endif
+        #endif
         break;
       }
     }
@@ -59,26 +59,26 @@ int main() {
     long min = std::stol(line.substr(0, pos));
     long max = std::stol(line.substr(pos + 1));
 
-#   if VERBOSE
+    #if VERBOSE
     std::cout << '\n' << min << " to " << max << '\n';
-#   endif
+    #endif
 
     for (long i { min }; i <= max; ++i) {
       std::string str = std::to_string(i);
 
-#     if PART == 1
+      #if PART == 1
       if (str.size() & 1) continue;
       size_t midpt { str.size() / 2 };
       const bool repeats { str.substr(0, midpt) == str.substr(midpt) };
 
-#     elif PART == 2
+      #elif PART == 2
       const bool repeats { multi_repeat(str) };
-#     endif
+      #endif
 
       if (repeats) {
-#       if VERBOSE
+        #if VERBOSE
         std::cout << "**** FOUND: " << str << " repeats!\n";
-#       endif
+        #endif
         invalid_sum += i;
       }
     }

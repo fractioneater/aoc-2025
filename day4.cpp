@@ -83,15 +83,15 @@ int main() {
     n++;
   }
 
-# if PART == 1
-# if VERBOSE
+  #if PART == 1
+  #if VERBOSE
   for (int tile {}; tile < spots.size(); ++tile) {
     const auto& [neighbors, type] { spots[tile] };
     if (type == '.') continue;
     if (neighbors.size() >= 4) continue;
     std::cout << "(" << tile % size << ", " << tile / size << ") crowdedness: " << neighbors.size() << '\n';
   }
-# endif
+  #endif
 
   std::cout << "PART: 1\nSum is " << std::count_if(
     spots.begin(), spots.end(), [](const Spot& s) {
@@ -99,7 +99,7 @@ int main() {
     }
   ) << '\n';
 
-# elif PART == 2
+  #elif PART == 2
 
   int removed {};
   int removed_recently { -1 };
@@ -113,18 +113,17 @@ int main() {
       spot->yoink(removed_recently);
     }
 
-#   if VERBOSE
+    #if VERBOSE
     std::cout << removed_recently << " were/was removed in this cycle.\n";
-#   endif
+    #endif
     removed += removed_recently;
   }
   std::cout << "Part: 2\n" << removed << " rolls can be removed\n";
 
-# endif
+  #endif
   return 0;
 }
 
 /* Comments and stuff:
  * Yeah, I'm not doing this anymore. (Documenting my experience and growth as a C++ learner; of course I'll still solve the puzzles.)
  */
-

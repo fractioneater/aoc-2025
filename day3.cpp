@@ -13,17 +13,17 @@ int main() {
 
   std::string line {};
   while (in.next_line(line)) {
-#   if PART == 1
+    #if PART == 1
 
     auto a { std::max_element(line.begin(), line.end() - 1) };
     auto b { std::max_element(line.begin() + 1 + std::distance(line.begin(), a), line.end()) };
 
-#   if VERBOSE
+    #if VERBOSE
     std::cout << *a << *b << '\n';
-#   endif
+    #endif
     sum += std::stol(std::format("{}{}", *a, *b));
 
-#   elif PART == 2
+    #elif PART == 2
 
     auto a { std::max_element(line.begin(), line.end() - 11) }; // 1
     auto b { std::max_element(a + 1, line.end() - 10) };        // 2
@@ -38,12 +38,12 @@ int main() {
     auto k { std::max_element(j + 1, line.end() - 1) };         // 11
     auto l { std::max_element(k + 1, line.end()) };             // 12
 
-#   if VERBOSE
+    #if VERBOSE
     std::cout << *a << *b << *c << *d << *e << *f << *g << *h << *i << *j << *k << *l << '\n';
-#   endif
+    #endif
     sum += std::stol(std::format("{}{}{}{}{}{}{}{}{}{}{}{}", *a, *b, *c, *d, *e, *f, *g, *h, *i, *j, *k, *l));
 
-#   endif
+    #endif
   }
 
   std::cout << "PART: " << PART << "\nThe joltage sum is " << sum << '\n';
