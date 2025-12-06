@@ -75,33 +75,33 @@ int main() {
 
   while (in.next_line(line)) {
     long id { std::stol(line) };
-  #if VERBOSE_INGREDIENTS
-  std::cout << "Ingredient " << id << '\n';
-  #endif
+    #if VERBOSE_INGREDIENTS
+    std::cout << "Ingredient " << id << '\n';
+    #endif
 
-  int nesting { 0 };
-  auto r_e { list };
-  while (r_e != nullptr && id > r_e->id) {
-    switch (r_e->type) {
-      case RangeElement::BEGIN:
-        nesting++;
-        break;
-      case RangeElement::END:
-        nesting--;
-        break;
-      default: ; // Nothing.
-    }
+    int nesting { 0 };
+    auto r_e { list };
+    while (r_e != nullptr && id > r_e->id) {
+      switch (r_e->type) {
+        case RangeElement::BEGIN:
+          nesting++;
+          break;
+        case RangeElement::END:
+          nesting--;
+          break;
+        default: ; // Nothing.
+      }
 
-  #if VERBOSE_INGREDIENTS
-  std::cout << "  Comparing with " << r_e->id << ": nesting " << nesting << '\n';
-  #endif
-  r_e = r_e->next;
+      #if VERBOSE_INGREDIENTS
+      std::cout << "  Comparing with " << r_e->id << ": nesting " << nesting << '\n';
+      #endif
+      r_e = r_e->next;
     }
-  if (r_e && (r_e->id == id || nesting > 0)) {
-  #if VERBOSE_INGREDIENTS
-  std::cout << "  FRESH\n";
-  #endif
-  fresh++;
+    if (r_e && (r_e->id == id || nesting > 0)) {
+      #if VERBOSE_INGREDIENTS
+      std::cout << "  FRESH\n";
+      #endif
+      fresh++;
     }
   }
 
