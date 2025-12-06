@@ -5,5 +5,5 @@ set(CMAKE_CXX_STANDARD 23)
 
 add_executable(aoc_2025
 	file.h
-	day5.cpp
+	day6.cpp
 )
