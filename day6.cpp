@@ -5,7 +5,40 @@
 #include "file.h"
 
 #define VERBOSE 1
-#define PART 1
+#define PART 2
+
+int column_to_int(std::vector<std::istringstream>& lines) {
+  char col[lines.size()];
+  for (int r {}; r < lines.size() - 1; ++r) {
+    lines[r].get(col[r]);
+  }
+  col[lines.size() - 1] = '\0';
+
+  int n {};
+  try {
+    n = std::stoi(col);
+  } catch (const std::invalid_argument&) {
+    return -1;
+  }
+
+  return n;
+}
+
+long solve_a_problem(std::vector<std::istringstream>& lines) {
+  char op;
+  lines.back() >> op;
+
+  long result { op == '*' ? 1 : 0 }; // Identity
+
+  int x { column_to_int(lines) };
+  do {
+    if (op == '*') result *= x;
+    else result += x;
+    x = column_to_int(lines);
+  } while (x != -1);
+
+  return result;
+}
 
 int main() {
   File in;
@@ -21,6 +54,7 @@ int main() {
     lines.push_back(std::move(iss));
   }
 
+  #if PART == 1
   while (true) {
     char op { static_cast<char>((lines[lines.size() - 1] >> std::ws).get()) };
     if (op == -1) break;
@@ -54,6 +88,15 @@ int main() {
       default: ;
     }
   }
+
+  #elif PART ==2
+  while (true) {
+    long solution { solve_a_problem(lines) };
+    if (solution == -1) break;
+    sum += solution;
+  }
+
+  #endif
 
   std::cout << "PART: " << PART << "\nThe grand total is " << sum << "\n";
 
