@@ -1,16 +1,16 @@
+#include "h/day1.h"
+
 #include <iostream>
 #include <sstream>
+
 #include "file.h"
 
 #define VERBOSE 0
 #define PART 2
 
-int main() {
+int day1(File& in) {
   int dial { 50 };
   int password {};
-
-  File in;
-  try { in = File { 1, "input" }; } catch (int ex) { return ex; }
 
   std::string line {};
   while (in.next_line(line)) {

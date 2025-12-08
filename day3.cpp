@@ -1,3 +1,5 @@
+#include "h/day3.h"
+
 #include <iostream>
 
 #include "file.h"
@@ -5,10 +7,7 @@
 #define VERBOSE 1
 #define PART 2
 
-int main() {
-  File in;
-  try { in = File { 3, "input" }; } catch (int ex) { return ex; }
-
+int day3(File& in) {
   long sum { 0 };
 
   std::string line {};

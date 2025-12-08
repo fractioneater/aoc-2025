@@ -1,7 +1,9 @@
+#include "h/day2.h"
+
 #include <cmath>
 #include <iostream>
-#include <sstream>
 #include <vector>
+
 #include "file.h"
 
 #define VERBOSE 0
@@ -45,10 +47,7 @@ bool multi_repeat(const std::string& str) {
 }
 #endif
 
-int main() {
-  File in;
-  try { in = File { 2, "input" }; } catch (int ex) { return ex; }
-
+int day2(File& in) {
   long invalid_sum { 0 };
 
   std::string line;
@@ -85,6 +84,8 @@ int main() {
   }
 
   std::cout << "PART: " << PART << "\nThe sum is " << invalid_sum << '\n';
+
+  return 0;
 }
 
 /* Comments and stuff:

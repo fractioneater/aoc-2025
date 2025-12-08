@@ -1,4 +1,7 @@
+#include "h/day5.h"
+
 #include <iostream>
+
 #include "file.h"
 
 #define VERBOSE_RANGES 0
@@ -35,10 +38,7 @@ void insert(RangeElement* after, RangeElement* const element) {
   before->next = element;
 }
 
-int main() {
-  File in;
-  try { in = File { 5, "input" }; } catch (int ex) { return ex; }
-
+int day5(File& in) {
   RangeElement fake_range { RangeElement::NONE, -1, nullptr };
   RangeElement* list { &fake_range };
 

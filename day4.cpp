@@ -1,5 +1,8 @@
+#include "h/day4.h"
+
 #include <iostream>
 #include <vector>
+
 #include "file.h"
 
 #define VERBOSE 1
@@ -27,13 +30,9 @@ struct Spot {
   }
 };
 
-int main() {
-  File in;
+int day4(File& in) {
   // IMPORTANT: Change size accordingly when switching between input and sample.
   //            Sample should be 10, input should be 140.
-  try { in = File { 4, "input" }; } catch (int ex) { return ex; }
-
-  // Hardcoded values; probably not good practice, but I have the input file.
   constexpr int size { 140 };
 
   std::array<Spot, size * size> spots {};

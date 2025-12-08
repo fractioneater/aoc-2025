@@ -1,7 +1,10 @@
+#include "h/day7.h"
+
 #include <iostream>
 #include <ranges>
 #include <sstream>
 #include <vector>
+
 #include "file.h"
 
 #define VERBOSE 0
@@ -39,12 +42,7 @@ std::ostream& operator<<(std::ostream& out, const Splitter& splitter) {
   return out;
 }
 
-int main() {
-  File in;
-  try {
-    in = File { 7, "input" };
-  } catch (int ex) { return ex; }
-
+int day7(File& in) {
   // Plan: Make a tree to store which splitters depend on which higher ones. I'll start from the bottom and go up.
 
   std::vector<std::istringstream> lines {};

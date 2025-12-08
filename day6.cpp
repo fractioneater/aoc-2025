@@ -1,7 +1,10 @@
+#include "h/day6.h"
+
 #include <iostream>
 #include <numeric>
 #include <sstream>
 #include <vector>
+
 #include "file.h"
 
 #define VERBOSE 1
@@ -40,10 +43,7 @@ long solve_a_problem(std::vector<std::istringstream>& lines) {
   return result;
 }
 
-int main() {
-  File in;
-  try { in = File { 6, "input" }; } catch (int ex) { return ex; }
-
+int day6(File& in) {
   long sum {};
 
   std::vector<std::istringstream> lines {};
