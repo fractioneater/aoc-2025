@@ -91,7 +91,7 @@ int day6(File& in) {
 
   #elif PART ==2
   while (true) {
-    long solution { solve_a_problem(lines) };
+    const long solution { solve_a_problem(lines) };
     if (solution == -1) break;
     sum += solution;
   }

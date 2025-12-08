@@ -1,6 +1,8 @@
 #include "h/day7.h"
 
+#include <iomanip>
 #include <iostream>
+#include <numeric>
 #include <ranges>
 #include <sstream>
 #include <vector>
@@ -8,8 +10,55 @@
 #include "file.h"
 
 #define VERBOSE 0
-#define PART 1
+// Attempt 1 can only solve part 1. Attempt 2 was a different method that can solve part 2.
+#define ATTEMPT 2
 
+
+#if ATTEMPT == 2
+void print_line(const long* const blocks, int size) {
+  #if VERBOSE
+  for (const long* current { blocks }; current < blocks + size; current++)
+    std::cout << *current << std::setw(3);
+  std::cout << "\n";
+  #endif
+}
+
+int day7(File& in) {
+  // IMPORTANT: This should be 15 for sample, 141 for input.
+  constexpr int size { 141 };
+
+  std::array<long, size> blocks {};
+
+  int splits {};
+
+  std::string line {};
+  in.next_line(line);
+  const auto s_col { line.find('S') };
+  blocks[s_col] = 1;
+  print_line(blocks.begin(), size);
+
+  while (in.next_line(line)) {
+    int col {};
+    for (const char c : line) {
+      if (c == '^' && blocks[col] > 0) {
+        splits++;
+        blocks[col - 1] += blocks[col];
+        blocks[col + 1] += blocks[col];
+        blocks[col]     = 0l;
+      }
+      col++;
+    }
+    print_line(blocks.begin(), size);
+  }
+
+  std::cout << "PART: 1\nThe beam is split " << splits << " times\n";
+  std::cout << "PART: 2\nThere are " << std::accumulate(blocks.begin(), blocks.end(), 0l) << " timelines\n";
+
+  return 0;
+}
+
+#elif ATTEMPT == 1
+// That's a lot of code for something that barely works.
 struct Splitter {
   int column {};
   int row {};
@@ -19,9 +68,9 @@ struct Splitter {
   std::vector<Splitter*> dependents {};
 
   void mark() {
-    #if VERBOSE
+#if VERBOSE
     std::cout << "Marking (" << column << ", " << row << ")\n";
-    #endif
+#endif
     is_marked = true;
     for (Splitter* sub : dependents) {
       if (sub->is_marked) continue;
@@ -111,7 +160,7 @@ int day7(File& in) {
   #endif
 
   tree_start.mark();
-  int answer {
+  const int answer {
     static_cast<int>(std::count_if(splitters.begin(), splitters.end(), [](const Splitter& it) { return it.is_marked; }))
   };
   std::cout << "PART: " << PART << "\nThe beam is split " << answer << " times\n";
@@ -122,3 +171,4 @@ int day7(File& in) {
 
   return 0;
 }
+#endif
