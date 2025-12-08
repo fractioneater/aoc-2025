@@ -13,7 +13,6 @@
 // Attempt 1 can only solve part 1. Attempt 2 was a different method that can solve part 2.
 #define ATTEMPT 2
 
-
 #if ATTEMPT == 2
 void print_line(const long* const blocks, int size) {
   #if VERBOSE
@@ -163,7 +162,7 @@ int day7(File& in) {
   const int answer {
     static_cast<int>(std::count_if(splitters.begin(), splitters.end(), [](const Splitter& it) { return it.is_marked; }))
   };
-  std::cout << "PART: " << PART << "\nThe beam is split " << answer << " times\n";
+  std::cout << "PART: 1\nThe beam is split " << answer << " times\n";
 
   #if VERBOSE
   std::cout << "----\n" << splitters.back() << '\n';
