@@ -6,8 +6,7 @@
 
 #include "file.h"
 
-#define VERBOSE 1
-#define PART 1
+#define VERBOSE 0
 
 struct Dsu {
   std::vector<int> parent {}, size {};
@@ -26,7 +25,7 @@ struct Dsu {
     return parent[v] = find_set(parent[v]);
   }
 
-  void union_sets(int a, int b) {
+  int union_sets(int a, int b) {
     a = find_set(a);
     b = find_set(b);
     if (a != b) {
@@ -36,11 +35,13 @@ struct Dsu {
 
       // THIS was the line that caused the problem! Well, the problem was present because this line didn't exist.
       // One circuit was unioned with another but its old size was high enough to make top three
-      size[b]   = 0; // This circuit is gone.
+      size[b] = 0; // This circuit is gone.
       #if VERBOSE
       std::cout << "  " << b << " circuit has joined the " << a << " circuit (new size " << size[a] << ")\n";
       #endif
+      return size[a];
     }
+    return 0;
   }
 };
 
@@ -77,6 +78,44 @@ std::ostream& operator<<(std::ostream& out, const Box& point) {
   return out;
 }
 
+long p1(const int sort_count, const std::vector<Box>& boxes, std::vector<Edge>& edges) {
+  std::ranges::partial_sort(edges, edges.begin() + sort_count, [](const Edge& x, const Edge& y) { return x.distance < y.distance; });
+
+  Dsu dsu { static_cast<int>(boxes.size()) };
+  for (int i {}; i < sort_count; ++i) {
+    #if VERBOSE
+    std::cout << i + 1 << "th shortest edge from " << edges[i].a << " to " << edges[i].b << ", distance: " << edges[i].distance << "\n";
+    #endif
+    dsu.union_sets(edges[i].a, edges[i].b);
+  }
+
+  std::ranges::partial_sort(dsu.size, dsu.size.begin() + 3, std::greater());
+
+  #if VERBOSE
+  std::cout << "Top three unions are " << dsu.size[0] << ", " << dsu.size[1] << ", and " << dsu.size[2] << "\n";
+  #endif
+  // I should be getting 26, 52, 73.
+  return dsu.size[0] * dsu.size[1] * dsu.size[2];
+}
+
+long p2(const std::vector<Box>& boxes, std::vector<Edge>& edges) {
+  std::ranges::sort(edges, [](const Edge& x, const Edge& y) { return x.distance < y.distance; });
+
+  long long sol {};
+  Dsu dsu { static_cast<int>(boxes.size()) };
+  for (const auto& edge : edges) {
+    if (dsu.union_sets(edge.a, edge.b) == boxes.size()) {
+      #if VERBOSE
+      std::cout << boxes[edge.a].x << " * " << boxes[edge.b].x << "\n";
+      #endif
+      sol = static_cast<long>(boxes[edge.a].x) * static_cast<long>(boxes[edge.b].x);
+      break;
+    }
+  }
+
+  return sol;
+}
+
 int day8(File& in) {
   // IMPORTANT: Set this to 10 for sample, 1000 for input.
   constexpr int sort_count { 1000 };
@@ -98,29 +137,11 @@ int day8(File& in) {
   }
 
   for (int i {}; i < boxes.size(); i++)
-    for (int j { i + 1 }; j < boxes.size(); j++) {
+    for (int j { i + 1 }; j < boxes.size(); j++)
       edges.emplace_back(i, j, sq_distance(boxes[i], boxes[j]));
-    }
 
-  std::ranges::partial_sort(edges, edges.begin() + sort_count, [](const Edge& x, const Edge& y) { return x.distance < y.distance; });
-
-  Dsu dsu { static_cast<int>(boxes.size()) };
-  for (int i {}; i < sort_count; ++i) {
-    #if VERBOSE
-    std::cout << i + 1 << "th shortest edge from " << edges[i].a << " to " << edges[i].b << ", distance: " << edges[i].distance << "\n";
-    #endif
-    dsu.union_sets(edges[i].a, edges[i].b);
-  }
-
-  std::ranges::partial_sort(dsu.size, dsu.size.begin() + 3, std::greater());
-
-  #if VERBOSE
-  std::cout << "Top three unions are " << dsu.size[0] << ", " << dsu.size[1] << ", and " << dsu.size[2] << "\n";
-  #endif
-  // I should be getting 26, 52, 73.
-  const long top_3 { dsu.size[0] * dsu.size[1] * dsu.size[2] };
-
-  std::cout << "PART: " << PART << "\nMultiplied set sizes is " << top_3 << "\n";
+  std::cout << "PART 1: Multiplied set sizes is " << p1(sort_count, boxes, edges) << "\n";
+  std::cout << "PART 2: X coordinates multiplied is " << p2(boxes, edges) << "\n";
 
   return 0;
 }
