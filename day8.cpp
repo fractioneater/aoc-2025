@@ -1,7 +1,6 @@
 #include "h/day8.h"
 
 #include <algorithm>
-#include <cmath>
 #include <iostream>
 #include <vector>
 
@@ -33,9 +32,13 @@ struct Dsu {
     if (a != b) {
       if (size[a] < size[b]) std::swap(a, b);
       parent[b] = a;
-      size[a] += size[b];
+      size[a]   += size[b];
+
+      // THIS was the line that caused the problem! Well, the problem was present because this line didn't exist.
+      // One circuit was unioned with another but its old size was high enough to make top three
+      size[b]   = 0; // This circuit is gone.
       #if VERBOSE
-      std::cout << "  Size of the " << a << " union is now " << size[a] << "\n";
+      std::cout << "  " << b << " circuit has joined the " << a << " circuit (new size " << size[a] << ")\n";
       #endif
     }
   }
@@ -43,11 +46,14 @@ struct Dsu {
 
 struct Box {
   int x {}, y {}, z {};
-
-  [[nodiscard]] double distance(const Box& other) const {
-    return std::sqrt(std::pow(x - other.x, 2) + std::pow(y - other.y, 2) + std::pow(z - other.z, 2));
-  }
 };
+
+long sq_distance(const Box& a, const Box& b) {
+  const long dx { a.x - b.x };
+  const long dy { a.y - b.y };
+  const long dz { a.z - b.z };
+  return dx * dx + dy * dy + dz * dz;
+}
 
 struct Edge {
   int a, b;
@@ -93,7 +99,7 @@ int day8(File& in) {
 
   for (int i {}; i < boxes.size(); i++)
     for (int j { i + 1 }; j < boxes.size(); j++) {
-      edges.emplace_back(i, j, boxes[i].distance(boxes[j]));
+      edges.emplace_back(i, j, sq_distance(boxes[i], boxes[j]));
     }
 
   std::ranges::partial_sort(edges, edges.begin() + sort_count, [](const Edge& x, const Edge& y) { return x.distance < y.distance; });
@@ -101,7 +107,7 @@ int day8(File& in) {
   Dsu dsu { static_cast<int>(boxes.size()) };
   for (int i {}; i < sort_count; ++i) {
     #if VERBOSE
-    std::cout << i + 1 << "th short edge from " << edges[i].a << " to " << edges[i].b << ", distance: " << edges[i].distance << "\n";
+    std::cout << i + 1 << "th shortest edge from " << edges[i].a << " to " << edges[i].b << ", distance: " << edges[i].distance << "\n";
     #endif
     dsu.union_sets(edges[i].a, edges[i].b);
   }
@@ -111,6 +117,7 @@ int day8(File& in) {
   #if VERBOSE
   std::cout << "Top three unions are " << dsu.size[0] << ", " << dsu.size[1] << ", and " << dsu.size[2] << "\n";
   #endif
+  // I should be getting 26, 52, 73.
   const long top_3 { dsu.size[0] * dsu.size[1] * dsu.size[2] };
 
   std::cout << "PART: " << PART << "\nMultiplied set sizes is " << top_3 << "\n";
