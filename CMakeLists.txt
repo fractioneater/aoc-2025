@@ -15,5 +15,9 @@ add_executable(aoc_2025
 	day6.cpp
 	day7.cpp
 	day8.cpp
+	day9.cpp
+	day10.cpp
+	day11.cpp
+	day12.cpp
 	main.cpp
 )

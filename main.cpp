@@ -10,6 +10,10 @@
 #include "h/day6.h"
 #include "h/day7.h"
 #include "h/day8.h"
+#include "h/day9.h"
+#include "h/day10.h"
+#include "h/day11.h"
+#include "h/day12.h"
 
 int run_day(int i, File& in) {
   switch (i) {
@@ -29,6 +33,15 @@ int run_day(int i, File& in) {
       return day7(in);
     case 8:
       return day8(in);
+    case 9:
+      return day9(in);
+    case 10:
+      return day10(in);
+    case 11:
+      return day11(in);
+    case 12:
+      return day12(in);
+
     default: return 1;
   }
 };
