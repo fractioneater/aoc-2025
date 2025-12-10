@@ -6,17 +6,21 @@
 
 #define VERBOSE 1
 
-long p1() {
-  return 0;
-}
+namespace Day10 {
+  long p1() {
+    return 0;
+  }
 
-long p2() {
-  return 0;
+  long p2() {
+    return 0;
+  }
 }
 
 int day10(File& in) {
-  // PLAN: ...
+  using namespace Day10;
 
+  // PLAN: ...
+    
   std::string line {};
   while (in.next_line(line)) {}
 
