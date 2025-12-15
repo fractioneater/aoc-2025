@@ -140,8 +140,10 @@ int day8(File& in) {
     for (int j { i + 1 }; j < boxes.size(); j++)
       edges.emplace_back(i, j, sq_distance(boxes[i], boxes[j]));
 
-  std::cout << "PART 1: Multiplied set sizes is " << p1(sort_count, boxes, edges) << "\n";
-  std::cout << "PART 2: X coordinates multiplied is " << p2(boxes, edges) << "\n";
+  const long sol1 = p1(sort_count, boxes, edges);
+  std::cout << "PART 1: Multiplied set sizes is " << sol1 << "\n";
+  const long sol2 = p2(boxes, edges);
+  std::cout << "PART 2: X coordinates multiplied is " << sol2 << "\n";
 
   return 0;
 }

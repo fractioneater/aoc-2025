@@ -25,9 +25,9 @@ int day12(File& in) {
   while (in.next_line(line)) {}
 
   const long sol1 { p1() };
-  std::cout << "PART 1: Answer" << sol1 << "\n";
+  std::cout << "PART 1: Answer " << sol1 << "\n";
   // const long sol2 { p2() };
-  // std::cout << "PART 2: Answer" << sol2 << "\n";
+  // std::cout << "PART 2: Answer " << sol2 << "\n";
 
   return 0;
 }
