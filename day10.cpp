@@ -150,20 +150,10 @@ namespace Day10 {
         }
 
         // Only store if we haven't seen this pattern before
-        if (!pattern_costs[parity].contains(pattern))
+        if (!pattern_costs[parity].contains(pattern) || pattern_costs[parity][pattern] > std::popcount(b))
           pattern_costs[parity][pattern] = std::popcount(b);
       }
     }
-
-    /* TODO NEXT: These machines are wrong:
-     *    26: Mine got  68,  65 is correct
-     *    30: Mine got 256, 246 is correct
-     *    46: Mine got  99,  84 is correct
-     *    65: Mine got  69,  60 is correct
-     *    81: Mine got  38,  37 is correct
-     *   100: Mine got 141, 139 is correct
-     *   142: Mine got  40,  33 is correct
-     */
 
     // Thank you so much to the person on Reddit who found this solution!
     long p2() {
