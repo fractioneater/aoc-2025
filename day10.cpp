@@ -9,7 +9,7 @@
 #include "file.h"
 #include "memoizer.cpp"
 
-#define VERBOSE 2
+#define VERBOSE 0
 
 namespace Day10 {
   struct Machine {
