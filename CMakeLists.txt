@@ -7,6 +7,7 @@ include_directories(h)
 
 add_executable(aoc_2025
 	file.h
+	memoizer.cpp
 	day1.cpp
 	day2.cpp
 	day3.cpp
