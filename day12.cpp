@@ -6,7 +6,7 @@
 
 #include "file.h"
 
-#define VERBOSE 1}
+#define VERBOSE 1
 
 int day12(File& in) {
   // This solution is going to be HEAVILY optimized to my input.
